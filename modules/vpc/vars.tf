@@ -1,25 +1,25 @@
 variable "env" {
-  type    = string
+  type = string
 }
 
 variable "namespace" {
-  type    = string
+  type = string
 }
 
 variable "cidr_block" {
-  type    = string
+  type = string
 }
 
 variable "private_cidr_blocks" {
-  type    = list(any)
+  type = list(any)
 }
 
 variable "public_cidr_blocks" {
-  type    = list(any)
+  type = list(any)
 }
 
 variable "availability_zone" {
-  type    = list(any)
+  type = list(any)
 }
 
 variable "map_public_ip_on_launch" {
@@ -28,6 +28,6 @@ variable "map_public_ip_on_launch" {
 }
 
 variable "tags" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }

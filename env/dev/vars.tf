@@ -1,0 +1,10 @@
+variable "env" {}
+variable "namespace" {}
+variable "cidr_block" {}
+variable "private_cidr_blocks" {}
+variable "public_cidr_blocks" {}
+variable "availability_zone" {}
+variable "tags" {}
+variable "lb_type" {}
+variable "tg" {}
+variable "ingress" {}

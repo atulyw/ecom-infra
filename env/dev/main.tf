@@ -1,34 +1,32 @@
 
 module "dev_vpc" {
   source              = "../../modules/vpc"
-  env                 = "dev"
-  namespace           = "ecom"
-  cidr_block          = "172.25.0.0/16"
-  private_cidr_blocks = ["172.25.1.0/24", "172.25.2.0/24", "172.25.3.0/24", "172.25.4.0/24"]
-  public_cidr_blocks  = ["172.25.5.0/24", "172.25.6.0/24"]
-  availability_zone   = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d"]
-  tags = {
-    env       = "development"
-    bill_unit = "zshapr-102"
-    owner     = "ecom"
-    mail      = "atulyw@greamio.com"
-    team      = "DevOps"
-  }
+  env                 = var.env
+  namespace           = var.namespace
+  cidr_block          = var.cidr_block
+  private_cidr_blocks = var.private_cidr_blocks
+  public_cidr_blocks  = var.public_cidr_blocks
+  availability_zone   = var.availability_zone
+  tags                = var.tags
 }
 
-module "test_vpc" {
-  source              = "../../modules/vpc"
-  env                 = "test"
-  namespace           = "ecom"
-  cidr_block          = "172.26.0.0/16"
-  private_cidr_blocks = ["172.26.1.0/24", "172.26.2.0/24", "172.26.3.0/24", "172.26.4.0/24"]
-  public_cidr_blocks  = ["172.26.5.0/24", "172.26.6.0/24"]
-  availability_zone   = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d"]
-  tags = {
-    env       = "test"
-    bill_unit = "zshapr-102"
-    owner     = "ecom"
-    mail      = "atulyw@greamio.com"
-    team      = "DevOps"
-  }
+module "lb" {
+  source          = "../../modules/lb"
+  env             = var.env
+  namespace       = var.namespace
+  lb_type         = var.lb_type
+  security_groups = [module.sg.security_group_id]
+  subnets         = module.dev_vpc.public_subnet
+  vpc_id          = module.dev_vpc.vpc_id
+  tg              = var.tg
+}
+
+
+module "sg" {
+  source    = "../../modules/sg"
+  env       = var.env
+  namespace = var.namespace
+  vpc_id    = module.dev_vpc.vpc_id
+  ingress   = var.ingress
+  tags      = var.tags
 }
