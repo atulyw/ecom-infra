@@ -6,6 +6,11 @@ resource "aws_lb" "application" {
   security_groups            = var.security_groups
   subnets                    = var.subnets
   enable_deletion_protection = false
+  access_logs {
+    bucket  = aws_s3_bucket.this.id
+    prefix  = var.env
+    enabled = true
+  }
 }
 
 resource "aws_lb" "network" {
@@ -16,6 +21,11 @@ resource "aws_lb" "network" {
   #security_groups            = ["sg-0375057f9248be92c"]
   subnets                    = var.subnets
   enable_deletion_protection = false
+  # access_logs {
+  #   bucket  = aws_s3_bucket.lb_logs.bucket
+  #   prefix  = "test-lb"
+  #   enabled = true
+  # }
 }
 
 resource "aws_lb_listener" "http" {

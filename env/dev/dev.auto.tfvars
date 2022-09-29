@@ -17,7 +17,7 @@ tg = {
     port     = 8082
     path     = "/mobile/*"
     hc       = "/mobile/healthz"
-  }, 
+  },
   mens-cloths = {
     priority = "300"
     port     = 8083
